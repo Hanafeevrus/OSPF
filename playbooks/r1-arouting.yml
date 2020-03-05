@@ -1,0 +1,6 @@
+---
+ - name: router r1 | configure r1 eth1 cost
+   hosts: r1
+   become: true
+   roles: 
+    - r1-arouting

@@ -1,0 +1,36 @@
+! -*- ospf -*-
+!
+! OSPFd sample configuration file
+!
+!
+hostname ospfd
+password zebra
+!enable password please-set-at-here
+!
+!router ospf
+!  network 192.168.1.0/24 area 0
+!
+!
+log stdout
+log file /var/log/quagga/ospf.log
+
+interface eth1
+ip ospf mtu-ignore
+ip ospf network point-to-point
+ip ospf hello-interval 5
+ip ospf dead-interval 10
+
+interface eth2
+ip ospf mtu-ignore
+ip ospf network point-to-point
+ip ospf hello-interval 5
+ip ospf dead-interval 10
+ip ospf cost 200
+
+router ospf
+network 192.168.10.0/24 area 12
+network 172.16.15.0/24 area 12
+neighbor 192.168.10.12
+neighbor 172.16.15.13
+
+default-information originate always

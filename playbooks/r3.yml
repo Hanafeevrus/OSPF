@@ -1,0 +1,6 @@
+---
+ - name: router r3 | configure r3
+   hosts: r3
+   become: true
+   roles: 
+    - r3

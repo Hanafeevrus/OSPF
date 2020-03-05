@@ -1,0 +1,12 @@
+# handlers
+---
+     - name: restart ospfd
+       service:
+         name: ospfd
+         state: started
+         enabled: yes
+     - name: restart zebra
+       service:
+         name: zebra
+         state: started
+         enabled: yes

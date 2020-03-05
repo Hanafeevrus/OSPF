@@ -1,0 +1,78 @@
+# tasks file for ospf
+---
+    - name: install epel repo
+      yum:
+       name: epel-release
+       state: present
+      tags:
+      - epel-package
+      - packages
+
+    - name: install quagga
+      yum:
+        name: quagga
+        state: present
+      tags:
+       - install-quagga
+  
+    - name: install traceroute
+      yum:
+       name: traceroute
+       state: present
+      tags:
+      - install-traceroute  
+
+    - name: OSPF | Create ospfd config file from template
+      template:
+        src: templates/r2.conf.j2
+        dest: /etc/quagga/ospfd.conf
+      tags:
+        - quagga-configuration 
+       
+    - sysctl:
+       name: net.ipv4.ip_forward
+       value: '1'
+       sysctl_set: yes
+       state: present
+       reload: yes
+      tags:
+        - sysctl-forward-config  
+
+    - sysctl:
+       name: net.ipv4.ip_forward
+       value: '1'
+       sysctl_set: yes
+       state: present
+       reload: no
+      tags:
+        - sysctl-forward-config
+
+    - sysctl:
+       name: net.ipv4.conf.eth2.rp_filter
+       value: '0'
+       sysctl_set: yes
+       state: present
+       reload: no
+      tags:
+        - sysctl-eth*.rp_filter-config
+
+    - sysctl:
+       name: net.ipv4.conf.eth1.rp_filter
+       value: '0'
+       sysctl_set: yes
+       state: present
+       reload: yes
+      tags:
+        - sysctl-eth*.rp_filter-config
+
+    - name: restart ospfd
+      service:
+         name: ospfd
+         state: started
+         enabled: yes
+    - name: restart zebra
+      service:
+         name: zebra
+         state: started
+         enabled: yes
+   
